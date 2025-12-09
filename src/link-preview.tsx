@@ -62,7 +62,7 @@ const CompactSummary: FC<{ c: Context; rawUrl: string; allowPlayer: boolean }> =
             <a href={summaryUrl} target="_blank" rel="noopener noreferrer" className="flex flex-col sm:flex-row hover:bg-gray-50 transition-colors no-underline">
               {thumbnail && (
                 <div className="shrink-0">
-                  <img src={thumbnail} alt="Thumbnail" className="w-full h-full object-cover" />
+                  <img src={thumbnail} alt="Thumbnail" className="w-full sm:w-32 h-auto sm:h-24 object-cover" />
                 </div>
               )}
               <div className="p-3 overflow-hidden min-w-0 flex flex-col justify-center">
