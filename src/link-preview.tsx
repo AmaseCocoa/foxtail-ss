@@ -39,7 +39,7 @@ const CompactSummary: FC<{ c: Context; rawUrl: string; allowPlayer: boolean }> =
         <Link href="/src/style.css" rel="stylesheet" />
       </head>
       <body>
-        <div className="w-full my-4 border border-gray-200 rounded-lg overflow-hidden">
+        <div className="w-full border border-gray-200 rounded-lg overflow-hidden">
           {showPlayer ? (
             <div>
               <div className="aspect-video">
