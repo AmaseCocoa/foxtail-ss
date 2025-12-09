@@ -17,6 +17,10 @@ export interface Env {
 
 const app = new Hono<Env>()
 
+app.get('/', (c) => {
+  return c.redirect('https://github.com/AmaseCocoa/foxtail-ss')
+})
+
 app.route("/", linkCard)
 
 export default app
