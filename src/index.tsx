@@ -1,9 +1,4 @@
 import { Hono } from "hono"
-import { requestInit } from "./config"
-import { normalize } from "./encoding"
-import summary from "./summary"
-import type Context from "./context"
-import { renderer } from "./renderer"
 import linkCard from "./link-preview"
 
 export interface Env {
@@ -22,7 +17,6 @@ export interface Env {
 
 const app = new Hono<Env>()
 
-app.use(renderer)
 app.route("/", linkCard)
 
 export default app

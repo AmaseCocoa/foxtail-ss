@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@iframe-resizer/child':
+    specifier: ^5.5.7
+    version: 5.5.7
   '@tailwindcss/vite':
     specifier: ^4.1.17
     version: 4.1.17(vite@6.3.5)
@@ -1237,6 +1240,12 @@ packages:
       hono: 4.10.8
     dev: true
 
+  /@iframe-resizer/child@5.5.7:
+    resolution: {integrity: sha512-+/t5E9/wbB+sWg6xM6fRWvNZ48WcZSJXHwXt58EdsWnb1vW+N4wf0Tp6Bwq9JPN4GR64yjXAhb0bBq67ECr/lg==}
+    dependencies:
+      auto-console-group: 1.2.11
+    dev: false
+
   /@img/sharp-darwin-arm64@0.33.5:
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
@@ -1905,6 +1914,10 @@ packages:
   /assertion-error@1.1.0:
     resolution: {integrity: sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==}
     dev: true
+
+  /auto-console-group@1.2.11:
+    resolution: {integrity: sha512-/RFCswabfQZR4CDYser0V+AC+6+Q1ro2+RrP0AinOXDYnWsm3w14uc2MVdEaaSCDfpiTtETfahE9N7z9Yb1JiA==}
+    dev: false
 
   /binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}

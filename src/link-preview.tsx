@@ -4,9 +4,10 @@ import type { FC } from "hono/jsx"
 import { requestInit } from "./config"
 import { normalize } from "./encoding"
 import { Link, ViteClient } from "vite-ssr-components/hono"
-import { cache } from 'hono/cache';
+import { cache } from "hono/cache"
+import { html } from "hono/html"
 
-const app = new Hono();
+const app = new Hono()
 
 const CompactSummary: FC<{ c: Context; rawUrl: string; allowPlayer: boolean }> = async ({ c, rawUrl, allowPlayer }) => {
   if (!rawUrl) {
@@ -39,7 +40,7 @@ const CompactSummary: FC<{ c: Context; rawUrl: string; allowPlayer: boolean }> =
         <Link href="/src/style.css" rel="stylesheet" />
       </head>
       <body>
-        <div className="w-full border border-gray-200 rounded-lg overflow-hidden">
+        <div className="w-full h-full border border-gray-200 rounded-lg overflow-hidden">
           {showPlayer ? (
             <div>
               <div className="aspect-video">
@@ -59,46 +60,59 @@ const CompactSummary: FC<{ c: Context; rawUrl: string; allowPlayer: boolean }> =
               </div>
             </div>
           ) : (
-            <a href={summaryUrl} target="_blank" rel="noopener noreferrer" className="flex flex-col sm:flex-row hover:bg-gray-50 transition-colors no-underline">
-              {thumbnail && (
-                <div className="shrink-0">
-                  <img src={thumbnail} alt="Thumbnail" className="w-full sm:w-32 h-auto sm:h-24 object-cover" />
-                </div>
-              )}
-              <div className="p-3 overflow-hidden min-w-0 flex flex-col justify-center">
-                <h3 className="font-bold text-gray-800 truncate text-base">{title}</h3>
-                {description && <p className="text-sm text-gray-600 line-clamp-2 mt-1">{description}</p>}
-                {sitename && (
-                  <div className="flex items-center text-xs text-gray-500 mt-1">
-                    {icon && <img src={icon} alt="Icon" className="w-4 h-4 mr-2 rounded-full" />}
-                    <span>{sitename}</span>
+            <div class="h-full">
+              <a href={summaryUrl} target="_blank" rel="noopener noreferrer" className="flex flex-col sm:flex-row h-full hover:bg-gray-50 transition-colors no-underline">
+                {thumbnail && (
+                  <div className="shrink-0 h-full">
+                    <img src={thumbnail} alt="Thumbnail" className="w-full sm:w-32 h-auto sm:h-35 object-cover" />
                   </div>
                 )}
-              </div>
-            </a>
+                <div className="p-3 overflow-hidden min-w-0 flex flex-col justify-center">
+                  <h3 className="font-bold text-gray-800 truncate text-base">{title}</h3>
+                  {description && <p className="text-sm text-gray-600 line-clamp-2 mt-1">{description}</p>}
+                  {sitename && (
+                    <div className="flex items-center text-xs text-gray-500 mt-1">
+                      {icon && <img src={icon} alt="Icon" className="w-4 h-4 mr-2 rounded-full" />}
+                      <span>{sitename}</span>
+                    </div>
+                  )}
+                </div>
+              </a>
+            </div>
           )}
         </div>
+        {html` <script async src="/node_modules/@iframe-resizer/child/index.umd.js"></script> `}
       </body>
     </html>
   )
 }
 
-app.get( 
-  "/card",
-  cache({  
-    cacheName: 'foxtail-ss',  
-    cacheControl: 'public, max-age=604800'  
-  }),
-  async (c) => {
-    const rawUrl = c.req.query("url") || ""
+async function cachedLinkCard(c: Context) {
+  const rawUrl = c.req.query("url") || ""
 
-    const allowPlayerStr = c.req.query("allowPlayer")
-    const allowPlayer = allowPlayerStr === "true" || allowPlayerStr === ""
+  const allowPlayerStr = c.req.query("allowPlayer")
+  const allowPlayer = allowPlayerStr === "true" || allowPlayerStr === ""
 
-    const summaryHtml = await CompactSummary({ c, rawUrl, allowPlayer })
+  const summaryHtml = await CompactSummary({ c, rawUrl, allowPlayer })
 
-    return c.html(summaryHtml ?? "Response is Empty")
-  },
-)
+  c.header("Content-Security-Policy", "frame-ancestors 'self' https://amase.cc http://localhost:4321;")
+  return c.html(
+    html`<!DOCTYPE html>
+      ${summaryHtml ?? "Response is Empty"} `,
+  )
+}
+
+if (import.meta.env.DEV) {
+  app.get("/card", cachedLinkCard)
+} else {
+  app.get(
+    "/card",
+    cache({
+      cacheName: "foxtail-ss",
+      cacheControl: "public, max-age=604800",
+    }),
+    cachedLinkCard,
+  )
+}
 
 export default app

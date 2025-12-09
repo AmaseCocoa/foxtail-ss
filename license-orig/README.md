@@ -1,0 +1,2 @@
+# Original license of misskey-dev/summerflare
+foxtail-ss has been relicensed under GPLv3 due to the libraries it uses. The original project's license file is included here as-is (it does not apply to this project).

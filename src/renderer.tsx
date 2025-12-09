@@ -11,4 +11,4 @@ export const renderer = jsxRenderer(({ children }) => {
       <body>{children}</body>
     </html>
   )
-})
+}, { docType: true })
