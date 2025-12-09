@@ -95,7 +95,12 @@ async function cachedLinkCard(c: Context) {
 
   const summaryHtml = await CompactSummary({ c, rawUrl, allowPlayer })
 
-  c.header("Content-Security-Policy", "frame-ancestors 'self' https://amase.cc http://localhost:4321;")
+  if (import.meta.env.DEV) {
+    c.header("Content-Security-Policy", "frame-ancestors 'self' http://localhost:4321;")
+  } else {
+    c.header("Content-Security-Policy", "frame-ancestors 'self' https://amase.cc;")
+  }
+  
   return c.html(
     html`<!DOCTYPE html>
       ${summaryHtml ?? "Response is Empty"} `,
