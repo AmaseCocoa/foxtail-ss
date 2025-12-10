@@ -81,7 +81,7 @@ const CompactSummary: FC<{ c: Context; rawUrl: string; allowPlayer: boolean }> =
             </div>
           )}
         </div>
-        {html` <script async src="/node_modules/@iframe-resizer/child/index.umd.js"></script> `}
+        {html` <script async src="/static/js/iframe-resizer.child.js"></script> `}
       </body>
     </html>
   )

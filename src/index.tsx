@@ -1,4 +1,5 @@
 import { Hono } from "hono"
+import { serveStatic } from "hono/cloudflare-workers"
 import linkCard from "./link-preview"
 
 export interface Env {
@@ -16,9 +17,10 @@ export interface Env {
 }
 
 const app = new Hono<Env>()
+app.get("/static/*", serveStatic({ root: "./" }))
 
-app.get('/', (c) => {
-  return c.redirect('https://github.com/AmaseCocoa/foxtail-ss')
+app.get("/", (c) => {
+  return c.redirect("https://github.com/AmaseCocoa/foxtail-ss")
 })
 
 app.route("/", linkCard)

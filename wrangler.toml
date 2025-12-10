@@ -1,4 +1,7 @@
 name = "foxtail-ss"
 main = "src/index.tsx"
-compatibility_date = "2025-08-03"
+compatibility_date = "2025-05-08"
 compatibility_flags = ["nodejs_compat_v2"]
+
+[site]
+bucket = "./public"
